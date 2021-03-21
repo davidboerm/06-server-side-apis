@@ -1,4 +1,3 @@
-// 7a3ab3fca5c10f62a04c7656195495c6
 $(document).ready(function() {
     // GIVEN a weather dashboard with form inputs
     // THEN I am presented with current and future conditions for that city and that city is added to the search history
