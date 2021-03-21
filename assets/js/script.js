@@ -5,12 +5,14 @@ $(document).ready(function() {
     var searchForm = $('#search-form');
     var currentWeatherContainer = $('#current-weather');
     var forecastWeatherContainer = $('#forecast-weather');
+    
     //Enter api key here
-    var apiKey = ''  
+    var apiKey = '';  
     
     var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
     var baseUrlF = 'https://api.openweathermap.org/data/2.5/forecast?';
     var iconBaseUrl = 'http://openweathermap.org/img/wn/';
+    var searchHistory = [];
     // WHEN I search for a city
     searchForm.submit(function(event) {
         event.preventDefault();
@@ -18,10 +20,10 @@ $(document).ready(function() {
         // $(this) = this form that just submitted
         var formValues = $(this).serializeArray();
         var city = formValues[0].value;
-        // ho to create an element with jquery selector
-        var searchTermDiv = $('<div class="past-search-term">');
-        searchTermDiv.text(city);
-        searchHistoryContainer.append(searchTermDiv);
+        searchHistory.push(city);
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        // searchTermDiv.text(city);
+        // searchHistoryContainer.append(searchTermDiv);
         console.log(formValues, city);
         // real value gotten from form
         searchCityWeather(city);
@@ -40,6 +42,7 @@ $(document).ready(function() {
             var city = data.name;
             var date = moment().format('(M/DD/YYYY)');
             var temp = data.main.temp;
+            var roundedTemp = Math.round(10 * temp)/10;
             var humidity = data.main.humidity;
             var weather = data.weather;
             var iconUrl = iconBaseUrl + weather[0].icon + "@2x.png";
@@ -53,9 +56,9 @@ $(document).ready(function() {
             var windDiv = $('<div class="wind-name">');
             cityDiv.text(city + " " + date);
             weatherIconImg.attr('src', iconUrl);
-            tempDiv.text("Temperature: " + temp + "\u00B0F");
+            tempDiv.text("Temperature: " + roundedTemp + "\u00B0F");
             humidityDiv.text("Humidity: " + humidity + "\u0025");
-            windDiv.text("Windspeed: " + wind + "mph")
+            windDiv.text("Windspeed: " + Math.round(wind) + " mph")
             currentWeatherContainer.append(cityDiv);
             currentWeatherContainer.append(weatherIconImg);
             currentWeatherContainer.append(tempDiv);
@@ -79,13 +82,14 @@ $(document).ready(function() {
                 if (isThreeOClock > -1) {
                     var forecast = data.list[i];
                     var temp = forecast.main.temp;
+                    var roundedTemp = Math.round(10 * temp)/10;
                     var humidity = forecast.main.humidity;
                     var weatherIcon = forecast.weather;
                     var iconUrl = iconBaseUrl + weatherIcon[0].icon + ".png";
                     var wind = forecast.wind.speed;
                     var date = moment(forecast.dt_txt).format('ddd M/DD');
                     console.log(forecast, temp, humidity, weatherIcon, wind, cityName);
-                    var rowDiv = $('<div class="col-2">');
+                    var rowDiv = $('<div class="col-2 m-1">');
                     var dateDiv = $('<div class="date-name">');
                     var tempDiv = $('<div class="temp-name">');
                     var humidityDiv = $('<div class="humidity-name">');
@@ -93,9 +97,9 @@ $(document).ready(function() {
                     weatherImg.attr('src', iconUrl);
                     var windDiv = $('<div class="wind-name">');
                     dateDiv.text(date);
-                    tempDiv.text("Temp: " + temp + "\u00B0F");
+                    tempDiv.text("Temp: " + roundedTemp + "\u00B0F");
                     humidityDiv.text("Hum: " + humidity + "\u0025");
-                    windDiv.text("Wind: " + wind + "mph");
+                    windDiv.text("Wind: " + Math.round(wind) + " mph");
                     rowDiv.append(dateDiv);
                     rowDiv.append(weatherImg);
                     rowDiv.append(tempDiv);
@@ -111,4 +115,15 @@ $(document).ready(function() {
         // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 
     }
+    function retrieveSearchHistory() {
+        if (localStorage.getItem('searchHistory')) {
+            searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+            for (var i = 0; i < searchHistory.length; i++) {
+                var searchTermDiv = $('<div class="past-search-term">');
+                searchTermDiv.text(searchHistory[i]);
+                searchHistoryContainer.append(searchTermDiv);
+            }
+        }
+    }
+    retrieveSearchHistory();
 });
