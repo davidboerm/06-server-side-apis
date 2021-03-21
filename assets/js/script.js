@@ -6,7 +6,9 @@ $(document).ready(function() {
     var searchForm = $('#search-form');
     var currentWeatherContainer = $('#current-weather');
     var forecastWeatherContainer = $('#forecast-weather');
-    var apiKey = '7a3ab3fca5c10f62a04c7656195495c6'
+    //Enter api key here
+    var apiKey = ''  
+    
     var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
     var baseUrlF = 'https://api.openweathermap.org/data/2.5/forecast?';
     var iconBaseUrl = 'http://openweathermap.org/img/wn/';
