@@ -3,10 +3,10 @@ h1 {
 }
 
 .past-search-term {
-    color: rebeccapurple;
+    color: rgb(197, 68, 17);
 }
 .city-name {
     font-size: 1.5rem;
 }
-.row {font-size: medium;
+.forecast-weather.row {font-size: 0.8rem;
 }

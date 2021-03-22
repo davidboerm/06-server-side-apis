@@ -6,7 +6,7 @@ $(document).ready(function() {
     var currentWeatherContainer = $('#current-weather');
     var forecastWeatherContainer = $('#forecast-weather');
     
-    //Enter api key here
+    //Enter api key here 
     var apiKey = '';  
     
     var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
