@@ -16,7 +16,7 @@ $(document).ready(function() {
     // WHEN I search for a city
     searchForm.submit(function(event) {
         event.preventDefault();
-        console.log(event);
+        // console.log(event);
         // $(this) = this form that just submitted
         var formValues = $(this).serializeArray();
         var city = formValues[0].value;
@@ -24,7 +24,7 @@ $(document).ready(function() {
         localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
         // searchTermDiv.text(city);
         // searchHistoryContainer.append(searchTermDiv);
-        console.log(formValues, city);
+        // console.log(formValues, city);
         // real value gotten from form
         searchCityWeather(city);
         searchCityForecast(city);
@@ -38,7 +38,7 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data) {
-            console.log(data);
+            // console.log(data);
             var city = data.name;
             var date = moment().format('(M/DD/YYYY)');
             var temp = data.main.temp;
@@ -46,9 +46,9 @@ $(document).ready(function() {
             var humidity = data.main.humidity;
             var weather = data.weather;
             var iconUrl = iconBaseUrl + weather[0].icon + "@2x.png";
-            console.log(iconUrl);
+            // console.log(iconUrl);
             var wind = data.wind.speed;
-            console.log(temp, humidity, wind);
+            // console.log(temp, humidity, wind);
             var cityDiv = $('<div class="city-name">');
             var tempDiv = $('<div class="temp-name">');
             var humidityDiv = $('<div class="humidity-name">');
@@ -73,8 +73,8 @@ $(document).ready(function() {
         fetch(forecastUrl).then(function(response) {
             return response.json();
         }).then(function(data) {
-            console.log(forecastUrl);
-            console.log("Five Day Forecast", data);
+            // console.log(forecastUrl);
+            // console.log("Five Day Forecast", data);
             
             for (var i = 0; i < data.list.length; i++) {
                 var isThreeOClock = data.list[i].dt_txt.search('21:00:00');
@@ -88,24 +88,31 @@ $(document).ready(function() {
                     var iconUrl = iconBaseUrl + weatherIcon[0].icon + ".png";
                     var wind = forecast.wind.speed;
                     var date = moment(forecast.dt_txt).format('ddd M/DD');
-                    console.log(forecast, temp, humidity, weatherIcon, wind, cityName);
-                    var rowDiv = $('<div class="col-2 m-1">');
-                    var dateDiv = $('<div class="date-name">');
+                    // console.log(forecast, temp, humidity, weatherIcon, wind, cityName);
+
+                    var cardDiv = $('<div class="card bg-primary text-white mt-4 mr-3 mb-3">');
+                    var cardHeaderDiv = $('<div class="card-header text-center">');
+                    var cardBodyDiv = $('<div class="card-body" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px">');
+
+                    
+                    var dateDiv = $('<h5 class="date-name">');
                     var tempDiv = $('<div class="temp-name">');
                     var humidityDiv = $('<div class="humidity-name">');
-                    var weatherImg = $('<img class="icon-name" />');
+                    var weatherImg = $('<img class="icon-name mx-auto d-block">');
                     weatherImg.attr('src', iconUrl);
                     var windDiv = $('<div class="wind-name">');
                     dateDiv.text(date);
                     tempDiv.text("Temp: " + roundedTemp + "\u00B0F");
                     humidityDiv.text("Hum: " + humidity + "\u0025");
                     windDiv.text("Wind: " + Math.round(wind) + " mph");
-                    rowDiv.append(dateDiv);
-                    rowDiv.append(weatherImg);
-                    rowDiv.append(tempDiv);
-                    rowDiv.append(humidityDiv);
-                    rowDiv.append(windDiv);
-                    forecastWeatherContainer.append(rowDiv);
+                    cardDiv.append(cardHeaderDiv);
+                    cardDiv.append(cardBodyDiv);
+                    cardHeaderDiv.append(dateDiv);
+                    cardBodyDiv.append(weatherImg);
+                    cardBodyDiv.append(tempDiv);
+                    cardBodyDiv.append(humidityDiv);
+                    cardBodyDiv.append(windDiv);
+                    forecastWeatherContainer.append(cardDiv);
 
                 }
             }
