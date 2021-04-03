@@ -11,5 +11,4 @@
 ![Weather Dashboard App Screenshot](./assets/images/screenshot.png "Weather Dashboard UI")
 
 ## Deployed URL
-
-https://davidboerm.github.io/project-1/
+https://davidboerm.github.io/06-server-side-apis/
