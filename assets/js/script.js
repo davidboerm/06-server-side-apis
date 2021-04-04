@@ -7,7 +7,7 @@ $(document).ready(function() {
     var forecastWeatherContainer = $('#forecast-weather');
     
     //Enter api key here 
-    var apiKey = '';  
+    var apiKey = '7a3ab3fca5c10f62a04c7656195495c6';  
     
     var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
     var baseUrlF = 'https://api.openweathermap.org/data/2.5/forecast?';
